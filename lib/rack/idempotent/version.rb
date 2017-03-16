@@ -1,5 +1,5 @@
 module Rack
-  module Idempotent
-    VERSION = "0.1.0"
+  class Idempotent
+    VERSION = "0.1.0".freeze
   end
 end
