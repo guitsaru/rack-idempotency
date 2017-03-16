@@ -1,9 +1,9 @@
 require "json"
 
-require "rack/idempotent/version"
+require "rack/idempotency/version"
 
-require "rack/idempotent/memory_store"
-require "rack/idempotent/null_store"
+require "rack/idempotency/memory_store"
+require "rack/idempotency/null_store"
 
 module Rack
   # Rack middleware for ensuring mutating endpoints are called at most once.
@@ -11,7 +11,7 @@ module Rack
   # Any request with an `Idempotency-Key` header will store its response in
   # the given cache.  When the client retries, it will get the previously
   # cached response.
-  class Idempotent
+  class Idempotency
     def initialize(app, store: NullStore.new)
       @app     = app
       @store   = store

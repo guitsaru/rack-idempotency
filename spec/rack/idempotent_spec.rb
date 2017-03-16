@@ -1,13 +1,13 @@
 require "spec_helper"
 
-RSpec.describe Rack::Idempotent do
+RSpec.describe Rack::Idempotency do
   let(:app) { lambda { |_| [200, { "Content-Type" => "text/plain" }, [SecureRandom.uuid]] } }
-  let(:middleware) { Rack::Idempotent.new(app, store: Rack::Idempotent::MemoryStore.new) }
+  let(:middleware) { Rack::Idempotency.new(app, store: Rack::Idempotency::MemoryStore.new) }
   let(:request) { Rack::MockRequest.new(middleware) }
   let(:key) { SecureRandom.uuid }
 
   it "has a version number" do
-    expect(Rack::Idempotent::VERSION).not_to be nil
+    expect(Rack::Idempotency::VERSION).not_to be nil
   end
 
   context "without an idempotency key" do

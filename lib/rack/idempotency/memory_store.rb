@@ -1,5 +1,5 @@
 module Rack
-  class Idempotent
+  class Idempotency
     # Stores idempotency information in a Hash.
     class MemoryStore
       def initialize

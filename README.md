@@ -1,4 +1,4 @@
-# Rack::Idempotent
+# Rack::Idempotency
 
 Rack middleware ensuring at most once requests for mutating endpoints.
 
@@ -9,7 +9,7 @@ Inspired by [this stripe blog post](https://stripe.com/blog/idempotency).
 Add this line to your application's Gemfile:
 
 ```ruby
-gem "rack-idempotent"
+gem "rack-idempotency"
 ```
 
 And then execute:
@@ -18,41 +18,41 @@ And then execute:
 
 Or install it yourself as:
 
-    $ gem install rack-idempotent
+    $ gem install rack-idempotency
 
 ## Server Usage
 
-Rack::Idempotent is implemented as a piece of Rack middleware and can be used with any Rack-based application. If your application includes a rackup (.ru) file or uses Rack::Builder to construct the application pipeline, simply require and use as follows:
+Rack::Idempotency is implemented as a piece of Rack middleware and can be used with any Rack-based application. If your application includes a rackup (.ru) file or uses Rack::Builder to construct the application pipeline, simply require and use as follows:
 
 ```ruby
-require "rack/idempotent"
+require "rack/idempotency"
 
-use Rack::Idempotent, store: Rack::Idempotent::MemoryStore.new
+use Rack::Idempotency, store: Rack::Idempotency::MemoryStore.new
 
 run app
 ```
 
-The `store` argument should be any object that responds to both `read(id)` and `write(id, value)`.  `Rack::Idempotent::MemoryStore` is good for testing, but should not be used in production.
+The `store` argument should be any object that responds to both `read(id)` and `write(id, value)`.  `Rack::Idempotency::MemoryStore` is good for testing, but should not be used in production.
 
 ## Using with Rails
 
 ```ruby
-config.middleware.use Rack::Idempotent, store: Rails.cache
+config.middleware.use Rack::Idempotency, store: Rails.cache
 ```
 
 ## Client Usage
 
-Rack::Idempotent works with any client that sets an `Idempotency-Key` header.  If the request succeeds, any subsequent request with the same key will return a cached response.
+Rack::Idempotency works with any client that sets an `Idempotency-Key` header.  If the request succeeds, any subsequent request with the same key will return a cached response.
 
 ## Considerations
 
-Rack::Idempotent should handle the following cases:
+Rack::Idempotency should handle the following cases:
 
  - [x] The initial connection to the server fails.
  - [ ] The request fails halfway through, leaving data in limbo.
  - [x] The request succeeds, but the connection to the client is lost.
  
-The second case is much more dependent on implementation.  Rack::Idempotent assumes that the request is in a transaction and
+The second case is much more dependent on implementation.  Rack::Idempotency assumes that the request is in a transaction and
 can be safely retried if it wasn't successful.
 
 ## Development
@@ -63,7 +63,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/guitsaru/rack-idempotent. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
+Bug reports and pull requests are welcome on GitHub at https://github.com/guitsaru/rack-idempotency. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
 
 
 ## License

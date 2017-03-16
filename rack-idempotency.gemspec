@@ -1,16 +1,16 @@
 # coding: utf-8
 lib = File.expand_path("../lib", __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require "rack/idempotent/version"
+require "rack/idempotency/version"
 
 Gem::Specification.new do |spec|
-  spec.name          = "rack-idempotent"
-  spec.version       = Rack::Idempotent::VERSION
+  spec.name          = "rack-idempotency"
+  spec.version       = Rack::Idempotency::VERSION
   spec.authors       = ["Matt Pruitt"]
   spec.email         = ["guitsaru@gmail.com"]
 
   spec.summary       = %q{Rack middleware for idempotency guarantees in mutating endpoints.}
-  spec.homepage      = "https://github.com/guitsaru/rack-idempotent"
+  spec.homepage      = "https://github.com/guitsaru/rack-idempotency"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files -z`.split("\x0").reject do |f|

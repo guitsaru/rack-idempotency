@@ -1,5 +1,5 @@
 require "bundler/setup"
-require "rack/idempotent"
+require "rack/idempotency"
 
 require "rack/mock"
 
