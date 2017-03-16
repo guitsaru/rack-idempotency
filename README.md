@@ -1,4 +1,5 @@
 # Rack::Idempotency
+[![Gem Version](https://badge.fury.io/rb/rack-idempotency.svg)](https://badge.fury.io/rb/rack-idempotency)
 
 Rack middleware ensuring at most once requests for mutating endpoints.
 
@@ -51,7 +52,7 @@ Rack::Idempotency should handle the following cases:
  - [x] The initial connection to the server fails.
  - [ ] The request fails halfway through, leaving data in limbo.
  - [x] The request succeeds, but the connection to the client is lost.
- 
+
 The second case is much more dependent on implementation.  Rack::Idempotency assumes that the request is in a transaction and
 can be safely retried if it wasn't successful.
 
@@ -69,4 +70,3 @@ Bug reports and pull requests are welcome on GitHub at https://github.com/guitsa
 ## License
 
 The gem is available as open source under the terms of the [MIT License](http://opensource.org/licenses/MIT).
-
