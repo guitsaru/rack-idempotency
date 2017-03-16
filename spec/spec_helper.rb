@@ -2,6 +2,7 @@ require "bundler/setup"
 require "rack/idempotency"
 
 require "rack/mock"
+require "securerandom"
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
