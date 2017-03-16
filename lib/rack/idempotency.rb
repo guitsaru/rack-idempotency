@@ -4,6 +4,9 @@ require "rack/idempotency/version"
 
 require "rack/idempotency/memory_store"
 require "rack/idempotency/null_store"
+require "rack/idempotency/request"
+require "rack/idempotency/request_storage"
+require "rack/idempotency/response"
 
 module Rack
   # Rack middleware for ensuring mutating endpoints are called at most once.
@@ -18,41 +21,33 @@ module Rack
     end
 
     def call(env)
-      idempotency_key = env["HTTP_IDEMPOTENCY_KEY"]
-      storage_key     = generate_storage_key(idempotency_key)
-      stored          = store.read(storage_key)
-      return JSON.parse(stored) if stored
+      @env     = env
+      @request = Request.new(env.dup.freeze)
 
-      response = @app.call(env)
-      store_response(storage_key, response)
-
-      response
+      lookup || store_response
     end
 
     private
 
-    attr_reader :app, :store
+    attr_reader :app
+    attr_reader :env
+    attr_reader :request
+    attr_reader :store
 
-    def store_response(storage_key, response)
-      if successful?(response)
-        marshaled_response = response.to_json
-        store.write(storage_key, marshaled_response)
-      end
-
-      response
+    def request_store
+      @request_store ||= RequestStorage.new(store, request)
     end
 
-    def successful?(response)
-      status = response.first
-
-      # Treat redirects as a successful response.
-      status.to_i >= 200 && status.to_i < 400
+    def lookup
+      request_store.read
     end
 
-    def generate_storage_key(idempotency_key)
-      namespace = "rack:idempotency"
+    def store_response
+      response = Response.new(*@app.call(env))
 
-      [namespace, idempotency_key.to_s].join(":")
+      request_store.write(response) if response.success?
+
+      response.to_a
     end
   end
 end
