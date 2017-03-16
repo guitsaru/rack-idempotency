@@ -1,6 +1,9 @@
 require "bundler/setup"
-require "rack/idempotency"
 
+require "simplecov"
+SimpleCov.start
+
+require "rack/idempotency"
 require "rack/mock"
 require "securerandom"
 

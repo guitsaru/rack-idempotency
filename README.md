@@ -1,6 +1,8 @@
 # Rack::Idempotency
 [![Gem Version](https://badge.fury.io/rb/rack-idempotency.svg)](https://badge.fury.io/rb/rack-idempotency)
 [![Build Status](https://travis-ci.org/guitsaru/rack-idempotency.svg?branch=master)](https://travis-ci.org/guitsaru/rack-idempotency)
+[![Code Climate](https://codeclimate.com/github/guitsaru/rack-idempotency/badges/gpa.svg)](https://codeclimate.com/github/guitsaru/rack-idempotency)
+[![Test Coverage](https://codeclimate.com/github/guitsaru/rack-idempotency/badges/coverage.svg)](https://codeclimate.com/github/guitsaru/rack-idempotency/coverage)
 
 Rack middleware ensuring at most once requests for mutating endpoints.
 
