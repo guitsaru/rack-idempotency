@@ -7,11 +7,15 @@ module Rack
       end
 
       def read
+        return unless request.idempotency_key
+
         stored = store.read(storage_key)
         JSON.parse(stored) if stored
       end
 
       def write(response)
+        return unless request.idempotency_key
+
         store.write(storage_key, response.to_json)
       end
 
