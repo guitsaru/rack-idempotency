@@ -16,6 +16,12 @@ RSpec.describe Rack::Idempotency do
     it { is_expected.to_not be_nil }
   end
 
+  context "with insecure idempotency key" do
+    subject { -> { request.get("/", "HTTP_IDEMPOTENCY_KEY" => 'x') } }
+
+    it { is_expected.to raise_error }
+  end
+
   context "with an idempotency key" do
     subject { request.get("/", "HTTP_IDEMPOTENCY_KEY" => key).body }
 

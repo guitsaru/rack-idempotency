@@ -2,6 +2,7 @@ require "json"
 
 require "rack/idempotency/version"
 
+require "rack/idempotency/errors"
 require "rack/idempotency/memory_store"
 require "rack/idempotency/null_store"
 require "rack/idempotency/request"
