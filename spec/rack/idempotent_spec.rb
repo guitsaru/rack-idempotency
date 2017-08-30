@@ -29,6 +29,12 @@ RSpec.describe Rack::Idempotency do
 
         it { is_expected.to eq(original) }
       end
+
+      context "on different request" do
+        let(:different) { request.get("/", "HTTP_IDEMPOTENCY_KEY" => SecureRandom.uuid).body }
+
+        it { is_expected.to_not eq(different) }
+      end
     end
 
     context "with a failed request" do
