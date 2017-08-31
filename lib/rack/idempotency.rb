@@ -2,6 +2,7 @@ require "json"
 
 require "rack/idempotency/version"
 
+require "rack/idempotency/errors"
 require "rack/idempotency/memory_store"
 require "rack/idempotency/null_store"
 require "rack/idempotency/request"
@@ -21,31 +22,18 @@ module Rack
     end
 
     def call(env)
-      @env     = env
-      @request = Request.new(env.dup.freeze)
+      request = Request.new(env.dup.freeze)
+      storage = RequestStorage.new(@store, request)
 
-      lookup || store_response
+      storage.read || store_response(storage, env)
     end
 
     private
 
-    attr_reader :app
-    attr_reader :env
-    attr_reader :request
-    attr_reader :store
-
-    def request_store
-      @request_store ||= RequestStorage.new(store, request)
-    end
-
-    def lookup
-      request_store.read
-    end
-
-    def store_response
+    def store_response(storage, env)
       response = Response.new(*@app.call(env))
 
-      request_store.write(response) if response.success?
+      storage.write(response) if response.success?
 
       response.to_a
     end

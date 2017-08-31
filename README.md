@@ -41,7 +41,9 @@ The `store` argument should be any object that responds to both `read(id)` and `
 ## Using with Rails
 
 ```ruby
-config.middleware.use Rack::Idempotency, store: Rails.cache
+config.before_initialize do
+  config.middleware.use Rack::Idempotency, store: Rails.cache
+end
 ```
 
 ## Client Usage

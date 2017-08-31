@@ -22,10 +22,6 @@ module Rack
       def to_json
         to_a.to_json
       end
-
-      def idempotency_key
-        headers["Idempotency-Key"]
-      end
     end
   end
 end

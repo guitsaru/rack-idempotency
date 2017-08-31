@@ -16,6 +16,12 @@ RSpec.describe Rack::Idempotency do
     it { is_expected.to_not be_nil }
   end
 
+  context "with insecure idempotency key" do
+    subject { -> { request.get("/", "HTTP_IDEMPOTENCY_KEY" => 'x') } }
+
+    it { is_expected.to raise_error }
+  end
+
   context "with an idempotency key" do
     subject { request.get("/", "HTTP_IDEMPOTENCY_KEY" => key).body }
 
@@ -28,6 +34,12 @@ RSpec.describe Rack::Idempotency do
         let(:original) { request.get("/", "HTTP_IDEMPOTENCY_KEY" => key).body }
 
         it { is_expected.to eq(original) }
+      end
+
+      context "on different request" do
+        let(:different) { request.get("/", "HTTP_IDEMPOTENCY_KEY" => SecureRandom.uuid).body }
+
+        it { is_expected.to_not eq(different) }
       end
     end
 
